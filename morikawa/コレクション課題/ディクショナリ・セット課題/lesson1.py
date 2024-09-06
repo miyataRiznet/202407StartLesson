@@ -12,10 +12,10 @@ player2={'テニス','将棋','料理','読書','旅行'}
 player1={'読書','昼寝','映画鑑賞','散歩','料理'}
 player2={'テニス','将棋','料理','読書','旅行'} 
 # 趣味の種類を取得(和集合)
-category = (player1 | player2)
+category = len(player1 | player2)
 
 # お互いの共通の趣味の数を取得(積集合)
 matching = len(player1 & player2)
 
 input('心の準備が出来たらEnterキーを押して下さい>>>')
-print(f'相性度は{matching / len(category) * 100}%でちた♡')
+print(f'相性度は{matching / category * 100}%でちた♡')
