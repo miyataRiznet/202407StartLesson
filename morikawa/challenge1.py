@@ -10,7 +10,10 @@
 脱落者がでたときのそれまでに配られたカードの総枚数と、優勝者の賞金を出力
 """
 import random
-random.seed()
+# 乱数固定関数（検証時に使用）
+# random.seed() 
+
+
 # cardの生成：全53枚、うち1枚jokerが入る
 # 生成したcardの配列を戻す
 def card_system():
