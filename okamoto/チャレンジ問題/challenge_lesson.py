@@ -32,7 +32,8 @@ game_times = player_num - 1                                                   # 
 total_card = 0
 player_list = [i + 1 for i in range(player_num)]
 
-for i in range(game_times, 0, -1):
+print(game_times)
+for i in range(game_times + 1, 1, -1):
     total_card += trump_game(i)
 
 print(f'優勝賞金{total_card}万円')
