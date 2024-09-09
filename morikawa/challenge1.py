@@ -71,6 +71,7 @@ def game(player,card):
                     print(f'{count}枚目で{i}が脱落しました')
                     card = card_system() # カードの再生成
                     card_shuffle(card) # カードのシャッフル
+                    print('<カードをシャッフルしました>')
                     player.remove(i) # プレイヤーの削除
                     joker_flug = True # jokerフラグを立てる
 
