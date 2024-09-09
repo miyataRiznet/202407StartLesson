@@ -26,11 +26,12 @@ def card_system():
     card.append('joker')
     return card
 
+"""
 # cardをシャッフルする
 def card_shuffle(card):
-    # cardをシャッフルする
     random.shuffle(card)
     return card
+"""
 
 # プレイヤー人数を決定しプレイヤー番号の配列を戻す
 def playerchoice():
@@ -46,17 +47,18 @@ def game(player,card):
     money = 0
     joker_flug = False
 
-    # プレイヤー数が１人になるまで繰り返し
-    while not len(player) == 1:
+    # (参加プレイヤー数 - 1)　の数 ゲームを行う
+    for game in range(len(player)-1): #while not len(player) == 1:
         # 変数の宣言、初期化
         joker_flug = False
         count = 0
-
-        # jokerが引かれていなければ繰り返す
-        while joker_flug==False:
+        
+        # cardの枚数分繰り返す
+        for draw in range(len(card)-1): # while not joker_flug:
             # プレイヤー人数ごとに繰り返す
             for i in player:
-                # カードから1つ抽出する
+
+                # cardから1つランダムに選択する
                 # random.randint = 現在のcardの要素数を取得し、
                 # インデックス0からmaxまでの大きさでランダムにインデックス番号を取得する
                 draw_num = random.randint(0, len(card)-1)
@@ -73,10 +75,12 @@ def game(player,card):
                 if popvalue != 'normal':
                     print(f'{count}枚目で{i}が脱落しました')
                     card = card_system() # カードの再生成
-                    card_shuffle(card) # カードのシャッフル
-                    print('<カードをシャッフルしました>')
+                    print('<カードをシャッフルしました>') # カードの選択時にランダムに選択しているためcardlistのシャッフルは行わない
                     player.remove(i) # プレイヤーの削除
-                    joker_flug = True # jokerフラグを立てる
+                    break
+            # 直前に引いたカードがjokerであればcardの繰り返しを抜ける
+            if popvalue == 'joker':
+                break
 
     # 優勝者の表示、優勝賞金の表示
     print(f'{player[0]}の優勝') # mainに戻ってもremoveしているのでplayer[0]で優勝者を表示できる
