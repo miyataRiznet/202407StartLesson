@@ -1,5 +1,8 @@
-num = int(input('数字>>'))
-if num % 2 == 0:
-     print('OK')
+numbers = input("数字>>")
+
+for i in numbers: 
+    if int(i) % 2 != 0:
+        print("NG")
+        break
 else:
-     print('NG')
+    print("OK")
