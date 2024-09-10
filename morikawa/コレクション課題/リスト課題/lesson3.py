@@ -8,11 +8,11 @@ import sys
 # 数字を入力
 n = input('数字>>>')
 # 入力値nを１桁ごとに配列で宣言、初期化
-nlist = [int(num) for num in list(str(n))]
+#nlist = [int(num) for num in list(str(n))]
 
 # 奇数であれば 'NG' と出力し処理を終了
-for i in nlist:
-    if i % 2 == 1:
+for i in list(n):
+    if int(i) % 2 == 1:
         print('NG')
         sys.exit()
 
