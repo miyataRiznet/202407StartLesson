@@ -5,12 +5,12 @@
 import sys
 sys.dont_write_bytecode = True
 
-import Calculation as Calc  # モジュールとしてCalculation.pyを呼び出し、Calcと命名（＝エイリアスを割り当てる）
+import calc  # モジュールとしてcalc.pyを呼び出す
 
 num1 = int(input('値1>>>'))
 num2 = int(input('値2>>>'))
 
-cal = Calc.Calculation()  # 別ファイルのクラスを呼び出す際は「モジュール.クラス()」
+cal = calc.Calculation()  # 別ファイルのクラスを呼び出す際は「モジュール.クラス()」
 
 add_num = cal.add(num1, num2)
 sub_num = cal.sub(num1, num2)
