@@ -55,31 +55,26 @@ def game(player,card):
         
         # cardの枚数分繰り返す
         for draw in range(len(card)-1): # while not joker_flug:
-            # プレイヤー人数ごとに繰り返す
-            for i in player:
+            # cardから1つランダムに選択する
+            # random.randint = 現在のcardの要素数を取得し、
+            # インデックス0からmaxまでの大きさでランダムにインデックス番号を取得する
+            draw_num = random.randint(0, len(card)-1)
 
-                # cardから1つランダムに選択する
-                # random.randint = 現在のcardの要素数を取得し、
-                # インデックス0からmaxまでの大きさでランダムにインデックス番号を取得する
-                draw_num = random.randint(0, len(card)-1)
+            # 上記draw_numにて取得したインデックス番号のカードを引く
+            popvalue = card.pop(draw_num)
 
-                # 上記draw_numにて取得したインデックス番号のカードを引く
-                popvalue = card.pop(draw_num)
+            # 引いた数をカウント
+            count += 1
+            # 優勝賞金をカウント
+            money += 1
 
-                # 引いた数をカウント
-                count += 1
-                # 優勝賞金をカウント
-                money += 1
-
-                # 引いたカードが'normal'ではない時
-                if popvalue != 'normal':
-                    print(f'{count}枚目で{i}が脱落しました')
-                    card = card_system() # カードの再生成
-                    print('<カードをシャッフルしました>') # カードの選択時にランダムに選択しているためcardlistのシャッフルは行わない
-                    player.remove(i) # プレイヤーの削除
-                    break
-            # 直前に引いたカードがjokerであればcardの繰り返しを抜ける
-            if popvalue == 'joker':
+            # 引いたカードが'normal'ではない時
+            if popvalue != 'normal':
+                dropout = int( (count-1) % len(player) ) # 脱落したプレイヤーの計算
+                print(f'{count}枚目で{player[dropout]}が脱落しました')
+                card = card_system() # カードの再生成
+                print('<カードをシャッフルしました>') # カードの選択時にランダムに選択しているためcardlistのシャッフルは行わない
+                player.remove(player[dropout]) # プレイヤーの削除
                 break
 
     # 優勝者の表示、優勝賞金の表示
