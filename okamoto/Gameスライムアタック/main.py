@@ -1,72 +1,85 @@
-import sys
-import tkinter as tk
+"""条件：
+1.	スライムの生成数はユーザーが入力した数字を使用
+2.	ボスが死ぬまで、スライムの1匹目~n匹目まで攻撃を続ける
+3.	最後にボスが生きていたらボスの勝ち。スライムが生きていた場合はスライムの勝ち
+4.	SlimeクラスとBossクラスを作成すること
+"""
+
 import random
 
-class Slime():
+# Bossクラスの設定
+class Boss():
     def __init__(self):
-        self.slime_level = 1
-        self.slime_life = 1
-        self.slime_atk = 1
+        self.boss_life = 1000
+        self.boss_atk = 300
 
-    def get_level(self):
-        self.slime_level = random.randint(1, 100)
-        return self.slime_level
-    
-    def get_life(self):
-        self.slime_life = self.get_level() * 10 + random.randint(-9, 10)
-        return self.slime_life
+# Slimeクラスの設定
+class Slime():
+    def __init__(self, i):
+        self.slime_name = f'スライム{i}'  # スライムの名前を決定
+        self.slime_level = random.randint(1, 100)  # スライムのレベルを決定
+        self.slime_life = self.slime_level * 10 + random.randint(-9, 10)  # レベルを基にHPを決定
+        self.slime_atk = round(self.slime_level * 1.5)  # レベルを基に攻撃力を決定
 
-    def get_atk(self):
-        self.slime_atk = round(self.get_level() * 1.5)
-        return self.slime_atk
+# 罫線を引く関数
+def write_line():
+    print('-----------------------------')
+    print('-----------------------------')
 
+# バトル(HPの変動やメッセージの表示など)に関する処理
+def battle(slime_list, boss):
+    for slime in slime_list:
+        if boss.boss_life <= 0:
+            print('スライムの勝ちです！')
+            break
+        for i in range(4):  # ボスの攻撃は多くて4回食らえば必ず負けるためrange(4)
+            boss.boss_life -= slime.slime_atk  # ボスのHPをスライムの攻撃力分削る
+            print(f'{slime.slime_name}(level:{slime.slime_level})の攻撃！')
+            print(f'ボスに{slime.slime_atk}のダメージ！')
+            print(f'ボスのHP：{max(0, boss.boss_life)} | {slime.slime_name}のHP：{max(0, slime.slime_life)}')
+            write_line()
+            if boss.boss_life <= 0:
+                break
+            slime.slime_life -= boss.boss_atk  # スライムのHPをボスの攻撃力分削る
+            print('ボスの攻撃！')
+            print(f'{slime.slime_name}に{boss.boss_atk}のダメージ！')
+            print(f'{slime.slime_name}のHP：{max(0, slime.slime_life)}')
+            if slime.slime_life <= 0:
+                print(f'{slime.slime_name}が死亡しました')
+                write_line()
+                break
+            write_line()
+    else:
+        print('スライムの負けです・・・')
 
-def start_game():
-    slime_num = int(entry_slime_num.get())
-    if slime_num > 10:
-        print('Please enter a number from 1 to 10！')
-        exit()
+# ボスのインスタンス生成
+def get_boss_status():
+    boss = Boss()
+    print('ボスがあらわれた！')
+    return boss
 
-    slime_dict = {}
-    status_dict = {}
-    # slime = []
+# スライムインスタンス生成
+def get_slime_status(slime_num):
+    slime_list = []
 
     for i in range(1, slime_num + 1):
-        
-        slime = Slime()  # インスタンスを生成
-        print(slime)
-        status_dict['level'] = slime.get_level()
-        status_dict['life'] = slime.get_life()
-        status_dict['atk'] = slime.get_atk()
-        
-        slime_dict[f'スライム{i}'] = status_dict
-        # f'slime{i}' = Slime()
-        # f'slime{i}'.get_level()
-        # f'slime{i}'.get_life()
-        # f'slime{i}'.get_atk()
-    print(slime_dict)
-    
+        slime = Slime(i)  # インスタンスを生成してリストに保持
+        print(f'{slime.slime_name}　レベル：{slime.slime_level}, HP：{slime.slime_life}, 攻撃力：{slime.slime_atk}')
+        slime_list.append(slime)
+
+    return slime_list
+
+# メイン
+def main():
+    slime_num = int(input('戦わせるスライムの匹数を決めてください(1~10)>>>'))
+
+    if not slime_num in range(1, 11):
+        print('1から10までの数を入力してください！')
+        exit()
+
+    slime_list = get_slime_status(slime_num)
+    boss = get_boss_status()
+    battle(slime_list, boss)
 
 
-
-# def main(self):
-root = tk.Tk()
-root.title('Game Slime Attack')
-root.geometry('1280x720')
-
-label_slime_num = tk.Label(text = 'How many slimes do you call up (1~10) ?', anchor = tk.CENTER)
-label_slime_num.pack()
-
-entry_slime_num = tk.Entry()
-entry_slime_num.pack()
-
-button_determining = tk.Button(text = 'OK！', command = start_game)
-button_determining.pack()
-
-root.mainloop()
-
-# root.destroy()
-
-
-# if __name__ == '__main__':
-#     main()
+main()
